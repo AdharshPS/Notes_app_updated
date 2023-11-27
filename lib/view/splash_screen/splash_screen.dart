@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive_with_adapter_class/utils/color_constant/color_constant.dart';
 import 'package:hive_with_adapter_class/view/home_screen/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,13 +26,14 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: ColorConstant.bottomSheet,
       body: Center(
         child: Text(
           "NOTES",
           style: TextStyle(
             fontSize: 40,
             fontWeight: FontWeight.w900,
+            color: ColorConstant.titleColor,
           ),
         ),
       ),
