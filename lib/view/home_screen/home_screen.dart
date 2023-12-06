@@ -50,9 +50,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return DefaultTabController(
       length: 6,
       child: Scaffold(
-        backgroundColor: ColorConstant.bottomSheet,
+        backgroundColor: ColorConstant.backgroundColor,
         appBar: AppBar(
-          backgroundColor: ColorConstant.bottomSheet,
+          backgroundColor: ColorConstant.backgroundColor,
           elevation: 0,
           centerTitle: true,
           title: Text(
