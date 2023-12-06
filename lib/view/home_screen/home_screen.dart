@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_with_adapter_class/model/notes_model.dart';
 import 'package:hive_with_adapter_class/utils/color_constant/color_constant.dart';
+import 'package:hive_with_adapter_class/view/detailes_screen/details_screen.dart';
 import 'package:intl/intl.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -62,35 +63,36 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.w900,
             ),
           ),
-          bottom: TabBar(
-              unselectedLabelColor: ColorConstant.titleColor,
-              labelColor: ColorConstant.titleColor,
-              isScrollable: true,
-              indicatorColor: ColorConstant.bottomSheet,
-              indicator: BoxDecoration(
-                color: ColorConstant.backgroundColor,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              tabs: [
-                Tab(
-                  text: "All",
-                ),
-                Tab(
-                  text: "Home",
-                ),
-                Tab(
-                  text: "Class",
-                ),
-                Tab(
-                  text: "Work",
-                ),
-                Tab(
-                  text: "GK",
-                ),
-                Tab(
-                  text: "Personal",
-                ),
-              ]),
+          // bottom: TabBar(
+          //   unselectedLabelColor: ColorConstant.titleColor,
+          //   labelColor: ColorConstant.titleColor,
+          //   isScrollable: true,
+          //   indicatorColor: ColorConstant.bottomSheet,
+          //   indicator: BoxDecoration(
+          //     color: ColorConstant.backgroundColor,
+          //     borderRadius: BorderRadius.circular(16),
+          //   ),
+          //   tabs: [
+          //     Tab(
+          //       text: "All",
+          //     ),
+          //     Tab(
+          //       text: "Home",
+          //     ),
+          //     Tab(
+          //       text: "Class",
+          //     ),
+          //     Tab(
+          //       text: "Work",
+          //     ),
+          //     Tab(
+          //       text: "GK",
+          //     ),
+          //     Tab(
+          //       text: "Personal",
+          //     ),
+          //   ],
+          // ),
         ),
         body: keysList.length == 0
             ? Center(
@@ -105,136 +107,149 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             : ListView.builder(
                 itemCount: keysList.length,
-                itemBuilder: (context, index) => Padding(
-                  padding: const EdgeInsets.all(8),
-                  // container
-                  child: Stack(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: colorList[box.get(keysList[index])!.color],
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: ColorConstant.bottomSheet,
-                            width: 5,
+                itemBuilder: (context, index) => InkWell(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => DetailsScreen(
+                            bgColor: colorList[box.get(keysList[index])!.color],
+                            title: box.get(keysList[index])!.title,
+                            des: box.get(keysList[index])!.des,
                           ),
-                        ),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            height10,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                SizedBox(
-                                  width: MediaQuery.sizeOf(context).width * .5,
-                                  child: Text(
-                                    box.get(keysList[index])?.title ?? "",
-                                    maxLines: 1,
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600,
-                                      color: ColorConstant.titleColor,
+                        ));
+                    print("Button");
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    // container
+                    child: Stack(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: colorList[box.get(keysList[index])!.color],
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              height10,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * .5,
+                                    child: Text(
+                                      box.get(keysList[index])?.title ?? "",
+                                      maxLines: 1,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        color: ColorConstant.titleColor,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    IconButton(
-                                      onPressed: () {
-                                        isEditing = true;
-                                        keyIndex = index;
-                                        bottomSheetMethod(context);
-                                        titleController.text =
-                                            (box.get(keysList[index])?.title)!;
-                                        desController.text =
-                                            (box.get(keysList[index])?.des)!;
-                                        dropDownValue =
-                                            (box.get(keysList[index])?.cat)!;
-                                        dateController.text =
-                                            (box.get(keysList[index])?.date)!;
-                                        colorindex =
-                                            box.get(keysList[index])?.color;
-                                      },
-                                      icon: Icon(
-                                        Icons.edit,
-                                        color: ColorConstant.titleColor,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      IconButton(
+                                        onPressed: () {
+                                          isEditing = true;
+                                          keyIndex = index;
+                                          bottomSheetMethod(context);
+                                          titleController.text = (box
+                                              .get(keysList[index])
+                                              ?.title)!;
+                                          desController.text =
+                                              (box.get(keysList[index])?.des)!;
+                                          dropDownValue =
+                                              (box.get(keysList[index])?.cat)!;
+                                          dateController.text =
+                                              (box.get(keysList[index])?.date)!;
+                                          colorindex =
+                                              box.get(keysList[index])?.color;
+                                        },
+                                        icon: Icon(
+                                          Icons.edit,
+                                          color: ColorConstant.titleColor,
+                                        ),
                                       ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {
-                                        box.delete(keysList[index]);
-                                        keysList = box.keys.toList();
-                                        setState(() {});
-                                      },
-                                      icon: Icon(
-                                        Icons.delete,
-                                        color: ColorConstant.titleColor,
+                                      IconButton(
+                                        onPressed: () {
+                                          box.delete(keysList[index]);
+                                          keysList = box.keys.toList();
+                                          setState(() {});
+                                        },
+                                        icon: Icon(
+                                          Icons.delete,
+                                          color: ColorConstant.titleColor,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            ),
-                            height10,
-                            SizedBox(
-                              width: MediaQuery.sizeOf(context).width * .90,
-                              child: Text(
-                                box.get(keysList[index])?.des ?? "",
-                                maxLines: 3,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: ColorConstant.titleColor,
-                                ),
+                                    ],
+                                  )
+                                ],
                               ),
-                            ),
-                            height10,
-                            height10,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Text(
-                                  box.get(keysList[index])?.date ?? "",
+                              height10,
+                              SizedBox(
+                                width: MediaQuery.sizeOf(context).width * .90,
+                                child: Text(
+                                  box.get(keysList[index])?.des ?? "",
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w400,
                                     color: ColorConstant.titleColor,
                                   ),
                                 ),
-                                SizedBox(width: 10),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                      Positioned(
-                        left: 15,
-                        child: Container(
-                          width: 100,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: ColorConstant.bottomSheet,
-                          ),
-                          child: Text(
-                            box.get(keysList[index])?.cat ?? "",
-                            maxLines: 1,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                              color: ColorConstant.titleColor,
-                            ),
+                              ),
+                              height10,
+                              height10,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    box.get(keysList[index])?.date ?? "",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: ColorConstant.titleColor,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                      ),
-                    ],
+                        Positioned(
+                          left: 15,
+                          child: Container(
+                            width: 100,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 2),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: ColorConstant.bottomSheet,
+                            ),
+                            child: Text(
+                              box.get(keysList[index])?.cat ?? "",
+                              maxLines: 1,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: ColorConstant.titleColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -443,6 +458,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 // button
                 ElevatedButton(
                   style: ButtonStyle(
+                    shape: MaterialStatePropertyAll(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
                     backgroundColor: MaterialStatePropertyAll(
                       ColorConstant.splash,
                     ),
